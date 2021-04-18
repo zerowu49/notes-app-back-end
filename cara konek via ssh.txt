@@ -1,0 +1,4 @@
+1. buka powershell di windows files
+2. paste tulisan dibawah 
+ssh -i "notes-api-webserver.pem" ubuntu@ec2-54-151-224-181.ap-southeast-1.compute.amazonaws.com
+3. setelah selesai, ketik exit
