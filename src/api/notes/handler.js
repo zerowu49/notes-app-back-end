@@ -47,11 +47,14 @@ class NotesHandler {
                 response.code(error.statusCode);
                 return response;
             }
+
+            // Server ERROR!
             const response = h.response({
-                status: 'fail',
-                message: error.message,
+                status: 'error',
+                message: 'Maaf, terjadi kegagalan pada server kami.',
             });
-            response.code(400);
+            response.code(500);
+            console.error(error);
             return response;
         }
     }
@@ -95,6 +98,7 @@ class NotesHandler {
                 response.code(error.statusCode);
                 return response;
             }
+
             // Server ERROR!
             const response = h.response({
                 status: 'error',
@@ -109,17 +113,14 @@ class NotesHandler {
     async putNoteByIdHandler(request, h) {
         try {
             this._validator.validateNotePayload(request.payload);
-
             const {
                 id
             } = request.params;
-
             const {
                 id: credentialId
             } = request.auth.credentials;
 
             await this._service.verifyNoteOwner(id, credentialId);
-
             await this._service.editNoteById(id, request.payload);
 
             return {
@@ -135,6 +136,7 @@ class NotesHandler {
                 response.code(error.statusCode);
                 return response;
             }
+
             // Server ERROR!
             const response = h.response({
                 status: 'error',
@@ -157,6 +159,7 @@ class NotesHandler {
 
             await this._service.verifyNoteOwner(id, credentialId);
             await this._service.deleteNoteById(id);
+
             return {
                 status: 'success',
                 message: 'Catatan berhasil dihapus',
@@ -170,6 +173,7 @@ class NotesHandler {
                 response.code(error.statusCode);
                 return response;
             }
+
             // Server ERROR!
             const response = h.response({
                 status: 'error',
